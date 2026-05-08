@@ -6,4 +6,4 @@ import pandas as pd
 
 # 1. 웹 페이지 설정
 st.set_page_config(page_title="남동고 등산", layout="wide")
-st.text("voi a ir a casa")
+st.text("집 가고 싶다")
