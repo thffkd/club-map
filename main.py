@@ -22,7 +22,21 @@ st.code("a=3")
 
 st.text("집 가고 싶다")
 
+# 2. 데이터 읽어보기
 df = pd.read_csv('인천광역시 남동구_고등학교_20240325.csv',encoding='cp949')
 df_latlon = df[['위도','경도']]
 df_latlon = df_latlon.rename(columns={'위도':'lat','경도':'lon'})
-st.map(df_latlon)
+#st.map(df_latlon)
+
+# 3. 지도 생성 및 마커 표시(지도 시각화 단계)
+m = folium.Map(
+    location=[37.40583317, 126.7214872],
+    zoom_start=15
+)
+
+folium.Marker(
+  location = [37.40583317, 126.7214872],
+  popup = "남동고등학교",
+  tooltip = "클릭해보세요",
+  icon = folium.Icon(color='cadetblue', icon='info-sign')
+).add_to(m)
