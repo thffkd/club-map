@@ -24,3 +24,5 @@ st.text("집 가고 싶다")
 
 df = pd.read_csv('인천광역시 남동구_고등학교_20240325.csv',encoding='cp949')
 df_latlon = df[['위도','경도']]
+df_latlon = df_latlon.rename(columns={'위도':'lat','경도':'lon'})
+st.map(df_latlon)
