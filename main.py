@@ -1,3 +1,3 @@
 import streamlit as st
 
-st.text("mapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmapmap")
+st.text("voi a ir a casa")
