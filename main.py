@@ -21,3 +21,6 @@ st.caption("캡션입니다")
 st.code("a=3")
 
 st.text("집 가고 싶다")
+
+df = pd.pd.read_csv('인천광역시 남동구_고등학교_20240325.csv',encoding='cp949')
+df_latlon = df[['위도','경도']]
