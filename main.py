@@ -35,12 +35,13 @@ m = folium.Map(
     zoom_start=12
 )
 
-folium.Marker(
-  location = [37.40583317, 126.7214872],
-  popup = "남동고등학교",
-  tooltip = "클릭해보세요",
-  icon = folium.Icon(color='cadetblue', icon='info-sign')
-).add_to(m)
+for i in range(len(df)):
+    folium.Marker(
+      location = [df.iloc[i]['위도'], df.iloc[i]['경도']],
+      popup = f'<div style="width:200px"> <strong>{df.iloc[i]['위치명']}</strong></div>',
+      tooltip = "클릭해보세요",
+      icon = folium.Icon(color='cadetblue', icon='info-sign')
+    ).add_to(m)
 
 # 4. 화면 출력
 st_folium(m, width=700, height=500)
