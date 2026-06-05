@@ -32,7 +32,7 @@ df_latlon = df_latlon.rename(columns={'위도':'lat','경도':'lon'})
 # 3. 지도 생성 및 마커 표시(지도 시각화 단계)
 m = folium.Map(
     location = [37.40583317, 126.7214872],
-    zoom_start = 17
+    zoom_start = 16
 )
 
 for i in range(len(df)):
