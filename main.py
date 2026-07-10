@@ -54,6 +54,3 @@ with col2:
     st.info("길이 미끄럽습니다. 주의하세요") #코스별 정보 넣기
     st.metric(label="소요시간", value="10분") #소요시간, 정보 코스별로 넣기
     st.write("주의사항 : 👟등산화를 착용하세요.")
-
-# 4. 화면 출력
-st_folium(m, width=700, height=500)
