@@ -63,7 +63,7 @@ course_info = {
 # 3. 사이드 바 - 코스 선택
 st.sidebar.header("📝코스선택")
 
-# Excel 데이터 내에 존재하는 실제 코스 목록 추출
+# 데이터 내에 존재하는 실제 코스 목록 추출
 unique_courses = list(df['코스'].unique()) if '코스' in df.columns else []
 course_options = ["전체 코스 보기"] + unique_courses
 
@@ -80,13 +80,56 @@ m = folium.Map(
     zoom_start = 16
 )
 
-for i in range(len(df)):
-    folium.Marker(
-      location = [df.iloc[i]['위도'], df.iloc[i]['경도']],
-      popup = f'<div style="width:200px"> <strong>{df.iloc[i]['위치명']}</strong></div>',
-      tooltip = "클릭해보세요",
-      icon = folium.Icon(color='cadetblue', icon='info-sign')
-    ).add_to(m)
+# 4-1. 코스별 마커 및 경로 선(PolyLine) 시각화
+for course_name, group in df.groupby('코스'):
+    # 특정 코스가 선택된 경우 해당 코스만 그리기
+    if selected_course != "전체 코스 보기" and course_name != selected_course:
+        continue
+    
+    # 코스 식별 키 추출 
+    c_key = course_name 
+    c_data = course_info.get(c_key, {"color": "gray", "time": "-", "notice": "", "caution": "안전에 유의하세요."})
+    marker_color = c_data["color"]
+    
+    # Points 선으로 잇기 (등산 경로 표시)
+    path_points = group[['위도', '경도']].values.tolist()
+    if len(path_points) > 1:
+        folium.PolyLine(
+            locations=path_points,
+            color=marker_color,
+            weight=4,
+            opacity=0.8,
+            tooltip=course_name
+        ).add_to(m)
+
+    # 지점별 마커 및 사진 팝업 추가
+    for idx, row in group.iterrows():
+        img_file = row['이미지']
+        
+        # Folium Popup HTML 작성 (지점명 + 코스 + 클릭 시 띄울 이미지)
+        popup_html = f'''
+        <div style="width:200px; text-align:center; font-family:sans-serif;">
+            <h4 style="margin:5px 0; color:#2c3e50;">{row['위치명']}</h4>
+            <p style="margin:2px; font-size:12px; color:#7f8c8d;">{row['코스']}</p>
+            <hr style="margin:5px 0; border:0; border-top:1px solid #ddd;">
+        </div>
+        '''
+        #<img src="{img_file}" width="180px" style="border-radius:6px; margin-top:5px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/180x120?text=No+Image';">
+        
+        folium.Marker(
+            location=[row['위도'], row['경도']],
+            popup=folium.Popup(popup_html, max_width=220),
+            tooltip=f"{row['위치명']} (클릭 시 상세/사진 보기)",
+            icon=folium.Icon(color=marker_color, icon='info-sign')
+        ).add_to(m)
+
+#for i in range(len(df)):
+#    folium.Marker(
+#      location = [df.iloc[i]['위도'], df.iloc[i]['경도']],
+#      popup = f'<div style="width:200px"> <strong>{df.iloc[i]['위치명']}</strong></div>',
+#      tooltip = "클릭해보세요",
+#      icon = folium.Icon(color='cadetblue', icon='info-sign')
+#    ).add_to(m)
 
 # 4. 화면 출력
 col1, col2 = st.columns([3,1])
