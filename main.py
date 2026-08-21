@@ -153,13 +153,29 @@ with col2:
         st.subheader("📸 지점별 포인트 사진")
 
         # 선택한 코스의 지점별 사진 목록 출력
+        from PIL import Image, ImageOps
+
         for idx, row in filtered_df.iterrows():
-            st.write(f"📍 **{row['위치명']}**")
+            st.write(f"**{row['위치명']}**")
             img_path = row['이미지']
             if os.path.exists(img_path):
-                st.image(img_path, caption=row['위치명'], use_container_width=True)
+                try:
+                    img = Image.open(img_path)
+            
+                    # EXIF 회전 정보를 실제 이미지 방향에 적용
+                    img = ImageOps.exif_transpose(img)
+            
+                    st.image(
+                        img,
+                        caption=row['위치명'],
+                        use_container_width=True
+                    )
+            
+                except Exception:
+                    st.caption("*(해당 지점 이미지 파일을 불러올 수 없습니다.)*")
             else:
-                st.caption("📷 *(해당 지점 이미지 파일 준비 중)*")
+                st.caption("*(해당 지점 이미지 파일 준비 중)*")
+
 
     else:
         st.info("👈 왼쪽 사이드바에서 특정 코스(A~E)를 선택하면 예상 소요시간, 주의사항 및 포인트별 사진을 상세히 보실 수 있습니다.")
