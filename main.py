@@ -14,6 +14,9 @@ st.markdown("코스를 선택하고 행사에 참여해 보세요.")
 # 2. 데이터 읽어보기
 #df = pd.read_csv('인천광역시 남동구_고등학교_20240325.csv',encoding='cp949')
 df = pd.read_csv('등산경로.csv',encoding='UTF-8') #cp949
+#코스의 위치에 해당하는 사진 이미지 이름 : "images/A입구.jpg"
+df['이미지'] = 'images/' + df['코스'] + df['위치명'] + '.jpg'
+
 df_latlon = df[['위도','경도']]
 df_latlon = df_latlon.rename(columns={'위도':'lat','경도':'lon'})
 #st.map(df_latlon)
