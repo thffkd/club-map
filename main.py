@@ -119,7 +119,7 @@ for course_name, group in df.groupby('코스'):
         folium.Marker(
             location=[row['위도'], row['경도']],
             popup=folium.Popup(popup_html, max_width=220),
-            tooltip=f"{row['위치명']} (클릭 시 상세/사진 보기)",
+            tooltip=f"{row['위치명']} (클릭 시 상세정보)",
             icon=folium.Icon(color=marker_color, icon='info-sign')
         ).add_to(m)
 
@@ -135,6 +135,7 @@ for course_name, group in df.groupby('코스'):
 col1, col2 = st.columns([3,1])
 
 with col1:
+    st.subheader("🗺️등산 경로 지도")
     st_folium(m, width=700, height=500)
 
 with col2:
