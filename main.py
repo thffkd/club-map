@@ -144,6 +144,12 @@ with col2:
         c_key = selected_course + '코스'
         info = course_info.get(c_key, {})
         st.markdown(f"### **{selected_course}** 코스")
+        st.info(f"🔔 {info.get('notice', '즐거운 등산 되세요!')}")
+        st.metric(label="⏱️ 예상 소요시간", value=info.get('time', '-'))
+        st.warning(f"💊 **주의사항**: {info.get('caution', '등산화를 착용하세요.')}")
+        
+        st.markdown("---")
+        st.subheader("📸 지점별 포인트 사진")
     
     st.info("길이 미끄럽습니다. 주의하세요") #코스별 정보 넣기
     st.metric(label="소요시간", value="10분") #소요시간, 정보 코스별로 넣기
